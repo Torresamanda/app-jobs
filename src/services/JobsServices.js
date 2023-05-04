@@ -13,7 +13,7 @@ module.exports = {
         });
     },
 
-    buscarOne: (id) => {
+    fetchOne: (id) => {
         return new Promise((accepted, rejected) => {
             db.query('SELECT * FROM Vagas WHERE id = ?', [id], (error, results) => {
                 if (error) {

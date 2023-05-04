@@ -20,7 +20,7 @@ module.exports = {
         res.json(json)
     },
 
-    buscarOne: async (req, res) => {
+    fetchOne: async (req, res) => {
         let json = { error: '', result: {} };
 
         let id = req.params.id
