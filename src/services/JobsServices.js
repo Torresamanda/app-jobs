@@ -3,7 +3,7 @@ const db = require('../db')
 module.exports = {
     fetchAll: () => {
         return new Promise((accepted, rejected) => {
-            db.query('SELECT * FROM Vagas', (error, results) => {
+            db.query('SELECT * FROM Jobs', (error, results) => {
                 if (error) {
                     rejected(error);
                     return;
@@ -15,7 +15,7 @@ module.exports = {
 
     fetchOne: (id) => {
         return new Promise((accepted, rejected) => {
-            db.query('SELECT * FROM Vagas WHERE id = ?', [id], (error, results) => {
+            db.query('SELECT * FROM Jobs WHERE id = ?', [id], (error, results) => {
                 if (error) {
                     rejected(error)
                 }
@@ -29,18 +29,46 @@ module.exports = {
         })
     },
 
-    insert: (name, midiaType) => {
+    insert: (name, linguagens, regiao, tipo, descricao, salario, link) => {
         return new Promise((accepted, rejected) => {
-            db.query('INSERT INTO Vagas (name, linguagens, regiao, tipo, descricao, salario) VALUES (?, ?, ?, ?, ?, ?)',
-                [name, midiaType],
+            db.query('INSERT INTO Jobs (name, linguagens, regiao, tipo, descricao, salario, link) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                [name, linguagens, regiao, tipo, descricao, salario, link],
                 (error, results) => {
                     if (error) {
                         rejected(error)
                     };
 
-                    accepted(results.jobsId);
+                    accepted(results.jobId);
                 });
         });
     },
+
+    alter: (id, name, linguagens, regiao, tipo, descricao, salario, link) => {
+        return new Promise((accepted, rejected) => {
+            db.query('UPDATE Jobs SET name = ?, linguagens = ?, regiao = ?, tipo = ?, descricao = ?, salario = ?, link = ? WHERE id = ?',
+                [name, linguagens, regiao, tipo, descricao, salario, link, id],
+                (error, results) => {
+                    if (error) {
+                        rejected(error);
+                        return;
+                    }
+                    accepted(results)
+                })
+        })
+    },
+
+    delete: (id) => {
+        return new Promise((accepted, rejected) => {
+            db.query('DELETE FROM Jobs WHERE id = ?',
+            [id],
+            (error, results) => {
+                if(error) {
+                    rejected(error);
+                    return;
+                }
+                accepted(results);
+            });
+        });
+    }
 
 };

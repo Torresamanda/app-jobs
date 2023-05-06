@@ -15,6 +15,7 @@ module.exports = {
                 tipo: jobs[i].tipo,
                 descricao: jobs[i].descricao,
                 salario: jobs[i].salario,
+                link: jobs[i].link
             })
         }
         res.json(json)
@@ -24,7 +25,7 @@ module.exports = {
         let json = { error: '', result: {} };
 
         let id = req.params.id
-        let jobs = await JobsServices.buscarOne(id)
+        let jobs = await JobsServices.fetchOne(id)
 
         if (jobs) {
             json.result = jobs;
@@ -42,22 +43,69 @@ module.exports = {
         let tipo = req.body.tipo;
         let descricao = req.body.descricao;
         let salario = req.body.salario;
+        let link = req.body.link;
 
-        if (name && linguagens && regiao && tipo && descricao && salario) {
-            let jobsId = await JobsServices.insert(name, linguagens, regiao, tipo, descricao, salario)
+        if (name && linguagens && regiao && tipo && descricao && salario && link) {
+            let jobId = await JobsServices.insert(name, linguagens, regiao, tipo, descricao, salario, link);
             json.result = {
-                id: jobsId,
+                id: jobId,
                 name,
+                linguagens,
+                regiao, 
+                tipo, 
+                descricao, 
+                salario, 
+                link
+            };
+        } else {
+            json.error = `Campos não enviados.`;
+        }
+        res.json(json);
+    },
+
+    alter: async(req, res) => {
+        let json = {error:'', result:{}};
+
+        let id = req.params.id;
+        let name = req.body.name;
+        let linguagens = req.body.linguagens;
+        let regiao = req.body.regiao;
+        let tipo = req.body.tipo;
+        let descricao = req.body.descricao;
+        let salario = req.body.salario;
+        let link = req.body.link;
+
+        if (id && name && linguagens && regiao && tipo && descricao && salario && link){
+            await JobsServices.alter(id, name, linguagens, regiao, tipo, descricao, salario, link);
+            json.result = {
+                id,
+                name, 
                 linguagens, 
                 regiao, 
                 tipo, 
                 descricao, 
-                salario
-            }
-        } else {
-            json.error = 'Campo não enviados'
+                salario, 
+                link
+            };
+        }else{
+            json.error = 'Campos não enviados';
         }
-
-        res.json(json)
+        res.json(json);
     },
+
+    delete: async (req, res) => {
+        let json = { error: '', result: {} };
+
+        let id = req.params.id
+
+        if(id) {
+            await JobsServices.delete(id);
+            json.result = `Id: ${id} deletado`
+        } else {
+            json.error = 'Não foi possível deletar. Tente novamente.'
+        }
+        
+        res.json(json)
+    }
+
 }
