@@ -29,7 +29,7 @@ module.exports = {
         })
     },
 
-    insert: (name, linguagens, regiao, tipo, descricao, salario, link) => {
+    insertJob: (name, linguagens, regiao, tipo, descricao, salario, link) => {
         return new Promise((accepted, rejected) => {
             db.query('INSERT INTO Jobs (name, linguagens, regiao, tipo, descricao, salario, link) VALUES (?, ?, ?, ?, ?, ?, ?)',
                 [name, linguagens, regiao, tipo, descricao, salario, link],
@@ -43,7 +43,7 @@ module.exports = {
         });
     },
 
-    alter: (id, name, linguagens, regiao, tipo, descricao, salario, link) => {
+    editJob: (id, name, linguagens, regiao, tipo, descricao, salario, link) => {
         return new Promise((accepted, rejected) => {
             db.query('UPDATE Jobs SET name = ?, linguagens = ?, regiao = ?, tipo = ?, descricao = ?, salario = ?, link = ? WHERE id = ?',
                 [name, linguagens, regiao, tipo, descricao, salario, link, id],
@@ -57,7 +57,7 @@ module.exports = {
         })
     },
 
-    delete: (id) => {
+    deleteJob: (id) => {
         return new Promise((accepted, rejected) => {
             db.query('DELETE FROM Jobs WHERE id = ?',
             [id],

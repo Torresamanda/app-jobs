@@ -39,7 +39,7 @@ module.exports = {
         res.json(json)
     },
 
-    insert: async (req, res) => {
+    insertJob: async (req, res) => {
         let json = { error: '', result: {} };
 
         let name = req.body.name;
@@ -69,7 +69,7 @@ module.exports = {
         res.json(json);
     },
 
-    alter: async (req, res) => {
+    editJob: async (req, res) => {
         let json = { error: '', result: {} };
 
         let id = req.params.id;
@@ -101,7 +101,7 @@ module.exports = {
         res.json(json);
     },
 
-    delete: async (req, res) => {
+    deleteJob: async (req, res) => {
         let json = { error: '', result: {} };
 
         const result = await JobsServices.delete(req.params.id)

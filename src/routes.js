@@ -5,9 +5,9 @@ const JobsControllers = require('./controllers/JobsControllers')
 
 router.get('/jobs', JobsControllers.fetchAll)
 router.get('/job/:id', JobsControllers.fetchOne)
-router.post('/job', JobsControllers.insert)
-router.put('/job/:id', JobsControllers.alter)
-router.delete('/job/:id', JobsControllers.delete)
+router.post('/job', JobsControllers.insertJob)
+router.put('/job/:id', JobsControllers.editJob)
+router.delete('/job/:id', JobsControllers.deleteJob)
 
 
 module.exports = router
