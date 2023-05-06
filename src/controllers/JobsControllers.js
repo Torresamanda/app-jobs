@@ -18,6 +18,7 @@ module.exports = {
                 link: jobs[i].link
             })
         }
+
         res.json(json)
     },
 
@@ -29,6 +30,10 @@ module.exports = {
 
         if (jobs) {
             json.result = jobs;
+            res.status(200)
+        } else {
+            json.error = 'Não foi encontrado o Id especificado.'
+            res.status(404)
         }
 
         res.json(json)
@@ -51,20 +56,21 @@ module.exports = {
                 id: jobId,
                 name,
                 linguagens,
-                regiao, 
-                tipo, 
-                descricao, 
-                salario, 
+                regiao,
+                tipo,
+                descricao,
+                salario,
                 link
             };
         } else {
-            json.error = `Campos não enviados.`;
+            json.error = 'Campos incorretos, tente novamente.';
+            res.status(500)
         }
         res.json(json);
     },
 
-    alter: async(req, res) => {
-        let json = {error:'', result:{}};
+    alter: async (req, res) => {
+        let json = { error: '', result: {} };
 
         let id = req.params.id;
         let name = req.body.name;
@@ -75,20 +81,22 @@ module.exports = {
         let salario = req.body.salario;
         let link = req.body.link;
 
-        if (id && name && linguagens && regiao && tipo && descricao && salario && link){
+        if (id && name && linguagens && regiao && tipo && descricao && salario && link) {
             await JobsServices.alter(id, name, linguagens, regiao, tipo, descricao, salario, link);
             json.result = {
                 id,
-                name, 
-                linguagens, 
-                regiao, 
-                tipo, 
-                descricao, 
-                salario, 
+                name,
+                linguagens,
+                regiao,
+                tipo,
+                descricao,
+                salario,
                 link
             };
-        }else{
-            json.error = 'Campos não enviados';
+            res.status(200)
+        } else {
+            json.error = 'Campos incorretos, tente novamente.';
+            res.status(500)
         }
         res.json(json);
     },
@@ -96,15 +104,16 @@ module.exports = {
     delete: async (req, res) => {
         let json = { error: '', result: {} };
 
-        let id = req.params.id
+        const result = await JobsServices.delete(req.params.id)
 
-        if(id) {
-            await JobsServices.delete(id);
-            json.result = `Id: ${id} deletado`
+        if (result.affectedRows > 0) {
+            json.result = 'Vaga deletada.'
+            res.status(200)
         } else {
-            json.error = 'Não foi possível deletar. Tente novamente.'
+            json.error = 'Id inexistente, por favor tente outro.'
+            res.status(404)
         }
-        
+
         res.json(json)
     }
 
