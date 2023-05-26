@@ -104,7 +104,7 @@ module.exports = {
     deleteJob: async (req, res) => {
         let json = { error: '', result: {} };
 
-        const result = await JobsServices.delete(req.params.id)
+        const result = await JobsServices.deleteJob(req.params.id)
 
         if (result.affectedRows > 0) {
             json.result = 'Vaga deletada.'
