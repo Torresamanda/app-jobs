@@ -51,7 +51,7 @@ module.exports = {
         let link = req.body.link;
 
         if (name && linguagens && regiao && tipo && descricao && salario && link) {
-            let jobId = await JobsServices.insert(name, linguagens, regiao, tipo, descricao, salario, link);
+            let jobId = await JobsServices.insertJob(name, linguagens, regiao, tipo, descricao, salario, link);
             json.result = {
                 id: jobId,
                 name,
