@@ -82,7 +82,7 @@ module.exports = {
         let link = req.body.link;
 
         if (id && name && linguagens && regiao && tipo && descricao && salario && link) {
-            await JobsServices.alter(id, name, linguagens, regiao, tipo, descricao, salario, link);
+            await JobsServices.editJob(id, name, linguagens, regiao, tipo, descricao, salario, link);
             json.result = {
                 id,
                 name,
